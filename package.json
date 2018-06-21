@@ -1,0 +1,22 @@
+{
+  "name": "webchart",
+  "version": "1.0.0",
+  "description": "Chart Online",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kylekwp22/webchart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kylekwp22/webchart/issues"
+  },
+  "homepage": "https://github.com/kylekwp22/webchart#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
