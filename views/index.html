@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>Web Chart</title>
+
+</head>
+<body>
+	<div class="container">
+		<canvas id="myChart"></canvas>
+	</div>
+	<button id ="btn_refresh" type="button" class="btn">Refresh</button>
+	<script>
+	var datas = [];
+	var debug;
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+
+
+    $.getJSON('/test', function(data) {
+    //data is the JSON string
+    	debug= data;
+    	for(var x in data.plots){
+  			datas.push(data.plots[x]);
+		}
+    	//console.log(datas);
+    	//datas = data.plots;
+	});
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+    var myColors = ['red'];
+    let massPopChart = new Chart(myChart, {
+      type:'scatter', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+        labels:['Boston'],
+        datasets:[{
+          label:'test',
+          fill: false,
+          borderColor: myColors,
+          data: datas ,
+        }]
+      },
+      options:{
+        responsive: true,
+        showLines: true
+      }
+    });
+
+      $( "#btn_refresh" ).click(function() {
+      	massPopChart.update();
+  		//alert( "Handler for .click() called." );
+  		
+	});
+  </script>
+</body>
+</html>
