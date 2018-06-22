@@ -12,50 +12,72 @@
 		<canvas id="myChart"></canvas>
 	</div>
 	<button id ="btn_refresh" type="button" class="btn">Refresh</button>
+
 	<script>
 	var datas = [];
-	var debug;
-    let myChart = document.getElementById('myChart').getContext('2d');
+	var myChart = document.getElementById('myChart').getContext('2d');
+	var massPopChart;
+    
+    $( "#btn_refresh" ).click(function() {
+	      	$.ajax({
+			      type: 'POST',
+			      url: '/',
+			      data: { ID: 'someid' },
+			      success: function(resultData) {
+			      	if(massPopChart!=null){
+						massPopChart.destroy();
+						datas=[];
+					}
+			      	
+			      	 for(var x in resultData.plots){
+  						datas.push(resultData.plots[x]);
+					}
 
-
-
-    $.getJSON('/test', function(data) {
-    //data is the JSON string
-    	debug= data;
-    	for(var x in data.plots){
-  			datas.push(data.plots[x]);
-		}
-    	//console.log(datas);
-    	//datas = data.plots;
-	});
-
-    // Global Options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-    var myColors = ['red'];
-    let massPopChart = new Chart(myChart, {
-      type:'scatter', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
-      data:{
-        labels:['Boston'],
-        datasets:[{
-          label:'test',
-          fill: false,
-          borderColor: myColors,
-          data: datas ,
-        }]
-      },
-      options:{
-        responsive: true,
-        showLines: true
-      }
-    });
-
-      $( "#btn_refresh" ).click(function() {
-      	massPopChart.update();
-  		//alert( "Handler for .click() called." );
+					
+					generate_chart();
+					
+			      	//alert(datas);
+			         //alert(JSON.stringify(resultData));
+			      }
+	   		 });
+	      	if(massPopChart!=null){
+	      		massPopChart.update();
+	      	}
+	  		//alert( "Handler for .click() called." );
   		
-	});
+		});
+
+
+    
+    function generate_chart(){
+    	 // Global Options 
+	    Chart.defaults.global.defaultFontFamily = 'Lato';
+	    Chart.defaults.global.defaultFontSize = 18;
+	    Chart.defaults.global.defaultFontColor = '#777';
+	    var myColors = ['red'];
+	    massPopChart = new Chart(myChart, {
+	      type:'scatter', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+	      data:{
+	        labels:['Boston'],
+	        datasets:[{
+	          label:'test',
+	          fill: false,
+	          borderColor: myColors,
+	          data: datas 
+
+	        }]
+	      },
+	      options:{
+	        responsive: true,
+	        showLines: true
+	      }
+	    });
+
+    }
+   
+
+
+      
   </script>
 </body>
 </html>
